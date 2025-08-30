@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Jin Yan — Research & Teaching</title>
+  <meta name="description" content="Jin Yan · Physics PhD · Nanophotonics, optics, machine learning. Personal website." />
+  <meta name="color-scheme" content="light dark" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='48' fill='%23008cff'/%3E%3Ctext x='50' y='58' text-anchor='middle' font-size='54' font-family='system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif' fill='white'%3EJ%3C/text%3E%3C/svg%3E" />
+  <style>
+    :root {
+      --bg: #ffffff;
+      --text: #1f1f1f;
+      --muted: #6b7280;
+      --card: #f8fafc;
+      --border: #e5e7eb;
+      --accent: #0ea5e9;
+      --accent-2: #7c3aed;
+      --radius: 18px;
+      --shadow: 0 10px 30px rgba(0,0,0,.08);
+      --max: 1100px;
+    }
+    [data-theme="dark"]{
+      --bg: #0b0f14;
+      --text: #e5e7eb;
+      --muted: #9aa4b2;
+      --card: #0f1520;
+      --border: #1f2a37;
+      --shadow: 0 12px 34px rgba(0,0,0,.35);
+      --accent: #38bdf8;
+      --accent-2: #a78bfa;
+    }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      font: 16px/1.6 system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      text-rendering: optimizeLegibility;
+    }
+    .wrap { max-width: var(--max); margin-inline: auto; padding: 24px; }
+    header {
+      position: sticky; top: 0; backdrop-filter: saturate(180%) blur(8px);
+      background: color-mix(in oklab, var(--bg) 80%, transparent);
+      border-bottom: 1px solid var(--border);
+      z-index: 50;
+    }
+    .nav { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+    .brand { font-weight: 700; letter-spacing: .3px; }
+    nav a { color: var(--muted); text-decoration: none; margin: 0 10px; }
+    nav a:hover { color: var(--text); }
+    .btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 14px; border-radius: 999px; border: 1px solid var(--border); background: var(--card); color: var(--text); text-decoration: none; box-shadow: var(--shadow); }
+    .btn:hover { border-color: var(--accent); }
+    .hero { padding: 60px 0 32px; }
+    .hero h1 { font-size: clamp(34px, 6vw, 56px); line-height: 1.08; margin: 0 0 10px; }
+    .gradient {
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+    .lead { color: var(--muted); font-size: clamp(16px, 2.6vw, 19px); max-width: 70ch; }
+
+    section { padding: 28px 0; }
+    h2 { font-size: 24px; margin: 0 0 14px; }
+    .grid { display: grid; gap: 16px; grid-template-columns: repeat(12, 1fr); }
+    .card { grid-column: span 12; border:1px solid var(--border); border-radius: var(--radius); background: var(--card); padding: 18px; box-shadow: var(--shadow); }
+    .muted { color: var(--muted); }
+
+    @media (min-width: 720px) {
+      .card.third { grid-column: span 4; }
+      .card.half { grid-column: span 6; }
+    }
+
+    .list { list-style: none; padding: 0; margin: 0; }
+    .list li { padding: 8px 0; border-bottom: 1px dashed var(--border); }
+    .list li:last-child { border-bottom: 0; }
+
+    footer { border-top: 1px solid var(--border); padding: 24px 0 80px; color: var(--muted); }
+    .spacer { height: 8px; }
+    .right { display:flex; align-items:center; gap:10px; }
+    .icon { width: 18px; height: 18px; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap nav">
+      <div class="brand">Jin Yan</div>
+      <div class="right">
+        <nav aria-label="Primary">
+          <a href="#research">Research</a>
+          <a href="#publications">Publications</a>
+          <a href="#projects">Projects</a>
+          <a href="#teaching">Teaching</a>
+          <a href="#contact">Contact</a>
+        </nav>
+        <button id="theme" class="btn" title="Toggle theme" aria-label="Toggle theme">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3a9 9 0 109 9 7.5 7.5 0 01-9-9z"/></svg>
+          Theme
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="hero" id="home">
+      <h1>Hi, I’m <span class="gradient">Jin Yan</span>.</h1>
+      <p class="lead">Physics PhD @ UCI · Lee Nano‑Optics Lab. I work on <strong>nanophotonics</strong>, meta‑optics (meta‑optical fibers, ENZ metasurfaces), and nonlinear optics (THG/SHG). I like building clean experiments and clean code.</p>
+      <div class="spacer"></div>
+      <a class="btn" href="#contact">Get in touch</a>
+    </section>
+
+    <section id="research">
+      <h2>Research focus</h2>
+      <div class="grid">
+        <article class="card third">
+          <h3>Meta‑optical fibers</h3>
+          <p class="muted">Off‑axis focusing fibers and miniature endoscopy optics; tunable/passive designs; 3D‑printed meta‑optics.</p>
+        </article>
+        <article class="card third">
+          <h3>Nonlinear optics</h3>
+          <p class="muted">Harmonic generation in PEDOT:PSS and CNTs; polarization/power dependence; fs‑microscopy pipelines.</p>
+        </article>
+        <article class="card third">
+          <h3>ENZ & nano‑photonics</h3>
+          <p class="muted">Epsilon‑near‑zero metasurfaces; light–matter in low‑index media; simulation + nanofabrication.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="publications">
+      <h2>Selected publications</h2>
+      <div class="card">
+        <ul class="list">
+          <li><strong>[2025]</strong> (Your paper title here). <span class="muted">Add authors · journal · doi</span></li>
+          <li><strong>[2024]</strong> (Another paper). <span class="muted">Details / link</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="projects">
+      <h2>Projects</h2>
+      <div class="grid">
+        <article class="card half">
+          <h3>THG/SHG analysis toolkit</h3>
+          <p class="muted">Python/MATLAB utilities for fs‑microscope data: polarization scans, power‑laws, pretty plots.</p>
+          <a class="btn" href="#" aria-disabled="true">Code (soon)</a>
+        </article>
+        <article class="card half">
+          <h3>Meta‑fiber prototypes</h3>
+          <p class="muted">Design + fabrication notes of off‑axis focusing fiber tips; coupling experiments.</p>
+          <a class="btn" href="#" aria-disabled="true">Photos (soon)</a>
+        </article>
+      </div>
+    </section>
+
+    <section id="teaching">
+      <h2>Teaching</h2>
+      <div class="card">
+        <p class="muted">TA @ UCI — Physics 7D/7LD etc. I care about clear problem‑solving, tidy plots, and reproducible analysis.</p>
+      </div>
+    </section>
+
+    <section id="contact">
+      <h2>Contact</h2>
+      <div class="card">
+        <p class="muted">Email: <a href="mailto:jiny26@uci.edu">jiny26@uci.edu</a> &nbsp;·&nbsp; GitHub: <a href="https://github.com/JinYan-Sivan" target="_blank" rel="noopener">@JinYan‑Sivan</a> &nbsp;·&nbsp; (Add Google Scholar / CV link here).</p>
+      </div>
+    </section>
+
+    <footer class="wrap">
+      <p class="muted">© <span id="y"></span> Jin Yan. Built from scratch with vanilla HTML/CSS/JS. Hosted on GitHub Pages.</p>
+    </footer>
+  </main>
+
+  <script>
+    // Footer year
+    document.getElementById('y').textContent = new Date().getFullYear();
+
+    // Theme toggle with localStorage
+    const root = document.documentElement;
+    const saved = localStorage.getItem('theme');
+    const preferDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    if (saved) root.setAttribute('data-theme', saved);
+    else if (preferDark) root.setAttribute('data-theme', 'dark');
+    document.getElementById('theme').addEventListener('click', () => {
+      const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      root.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+    });
+
+    // Smooth scroll for internal anchors
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        const id = a.getAttribute('href').slice(1);
+        const el = document.getElementById(id);
+        if (el){ e.preventDefault(); el.scrollIntoView({behavior:'smooth', block:'start'}); }
+      });
+    });
+  </script>
+</body>
+</html>
