@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Research — Jin Yan</title>
+  <meta name="color-scheme" content="light dark" />
+  <style>
+    :root{--bg:#fff;--text:#1f1f1f;--muted:#6b7280;--card:#f8fafc;--border:#e5e7eb;--accent:#0ea5e9;--accent-2:#7c3aed;--radius:18px;--shadow:0 10px 30px rgba(0,0,0,.08);--max:1100px}
+    [data-theme="dark"]{--bg:#0b0f14;--text:#e5e7eb;--muted:#9aa4b2;--card:#0f1520;--border:#1f2a37;--shadow:0 12px 34px rgba(0,0,0,.35);--accent:#38bdf8;--accent-2:#a78bfa}
+    body{margin:0;font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--text)}
+    .wrap{max-width:var(--max);margin-inline:auto;padding:24px}
+    header{position:sticky;top:0;backdrop-filter:saturate(180%) blur(8px);background:color-mix(in oklab,var(--bg) 80%,transparent);border-bottom:1px solid var(--border);z-index:50}
+    .nav{display:flex;align-items:center;justify-content:space-between;gap:16px}
+    .brand{font-weight:700}
+    nav a{color:var(--muted);text-decoration:none;margin:0 10px}
+    nav a.active, nav a:hover{color:var(--text)}
+    h1{margin:16px 0}
+    .grid{display:grid;gap:16px;grid-template-columns:repeat(12,1fr)}
+    .card{grid-column:span 12;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);padding:18px;box-shadow:var(--shadow)}
+    .muted{color:var(--muted)}
+    @media(min-width:720px){ .third{grid-column:span 4} .half{grid-column:span 6} }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap nav">
+      <div class="brand">Jin Yan</div>
+      <nav>
+        <a href="/">Home</a>
+        <a href="/research/" id="nav-research">Research</a>
+        <a href="/publications/">Publications</a>
+        <a href="/projects/">Projects</a>
+        <a href="/teaching/">Teaching</a>
+        <a href="/contact/">Contact</a>
+      </nav>
+      <button id="theme" class="card" style="border-radius:999px;padding:8px 12px">Theme</button>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <h1>Research</h1>
+
+    <section class="grid">
+      <article class="card third">
+        <h3>Meta-optical fibers</h3>
+        <p class="muted">Off-axis focusing, miniature endoscopy; design → fabrication → measurement.</p>
+      </article>
+      <article class="card third">
+        <h3>ENZ metasurfaces</h3>
+        <p class="muted">Epsilon-near-zero media; wavefront control in low-index platforms.</p>
+      </article>
+      <article class="card third">
+        <h3>Nonlinear optics</h3>
+        <p class="muted">THG/SHG in PEDOT:PSS/CNTs; polarization & power laws; fs-microscopy.</p>
+      </article>
+    </section>
+
+    <section class="card" style="margin-top:16px">
+      <h3>Current directions</h3>
+      <ul>
+        <li>Meta-fiber tip patterning strategies and coupling efficiency.</li>
+        <li>ENZ thin films for compact phase control.</li>
+        <li>Data pipelines for nonlinear microscopy (denoise, fitting, visualization).</li>
+      </ul>
+    </section>
+  </main>
+
+  <script>
+    const root=document.documentElement;
+    const saved=localStorage.getItem('theme');
+    const preferDark=matchMedia('(prefers-color-scheme: dark)').matches;
+    if(saved) root.setAttribute('data-theme',saved); else if(preferDark) root.setAttribute('data-theme','dark');
+    document.getElementById('theme').addEventListener('click',()=>{const next=root.getAttribute('data-theme')==='dark'?'light':'dark';root.setAttribute('data-theme',next);localStorage.setItem('theme',next)});
+    document.getElementById('nav-research').classList.add('active');
+  </script>
+</body>
+</html>
