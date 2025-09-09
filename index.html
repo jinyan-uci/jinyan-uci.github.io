@@ -13,6 +13,8 @@
       --bg:#ffffff; --text:#101315; --muted:#6b7280; --card:#f7fafc; --border:#e5e7eb;
       --accent:#0ea5e9; --accent-2:#7c3aed; --radius:18px; --shadow:0 10px 30px rgba(0,0,0,.08);
       --max:1100px;
+
+      /* 玻璃 + 英雄区背景/遮罩 */
       --glass-bg: color-mix(in oklab, var(--bg) 65%, transparent);
       --glass-brd: color-mix(in oklab, #fff 55%, transparent);
       --hero-overlay: linear-gradient(180deg, color-mix(in oklab,#fff 88%,transparent) 0%, color-mix(in oklab,#fff 60%,transparent) 60%, transparent 100%);
@@ -20,7 +22,10 @@
         radial-gradient(120% 100% at 70% 0%, color-mix(in oklab,#60a5fa 12%, transparent) 0%, transparent 60%) ,
         radial-gradient(120% 120% at 10% 10%, color-mix(in oklab,#22d3ee 10%, transparent) 0%, transparent 55%) ,
         linear-gradient(180deg, color-mix(in oklab,#dbeafe 18%, #fff 70%) 0%, #fff 100%);
-      --reveal-translate: 14px; /* 滚动弹出距离 */
+
+      /* Scroll-reveal 参数 */
+      --reveal-distance: 16px;
+      --reveal-duration: .85s; /* 稍微更长 */
     }
     [data-theme="dark"]{
       --bg:#0b0f14; --text:#e7ebf0; --muted:#9aa4b2; --card:#0f1520; --border:#1f2a37;
@@ -51,7 +56,6 @@
       background:var(--glass-bg);
       border-bottom:1px solid var(--glass-brd);
     }
-    /* 玻璃高光流动（低开销） */
     header::after{
       content:""; position:absolute; inset:0 -40vw 0 -40vw; pointer-events:none;
       background:linear-gradient(95deg, transparent 25%, color-mix(in oklab,#fff 28%, transparent) 45%, transparent 65%);
@@ -59,9 +63,7 @@
       animation:sheen 16s linear infinite;
     }
     @keyframes sheen{to{transform:translateX(20vw)}}
-    @media (prefers-reduced-motion: reduce){
-      header::after{animation:none; opacity:.06}
-    }
+    @media (prefers-reduced-motion: reduce){ header::after{animation:none; opacity:.06} }
 
     .nav{display:flex; align-items:center; justify-content:space-between; gap:16px}
     .brand{font-weight:800; letter-spacing:.3px}
@@ -71,7 +73,7 @@
       border:1px solid var(--border); background:var(--card); color:var(--text); text-decoration:none; box-shadow:var(--shadow)}
     .btn:hover{border-color:var(--accent)}
 
-    /* ========= HERO (静态、高对比) ========= */
+    /* ========= HERO ========= */
     .hero{
       position:relative; overflow:hidden;
       background: var(--hero-bg);
@@ -79,29 +81,22 @@
       min-height:min(70vh,680px);
       isolation:isolate;
     }
-    .hero::before{
-      content:""; position:absolute; inset:0; pointer-events:none; z-index:0;
-      background: var(--hero-overlay);
-    }
+    .hero::before{ content:""; position:absolute; inset:0; pointer-events:none; z-index:0; background: var(--hero-overlay); }
     .hero .inner{position:relative; z-index:1}
     .hero h1{
       font-size:clamp(34px,6vw,56px); line-height:1.08; margin:0 0 10px; text-wrap:balance;
       filter: drop-shadow(0 1px 12px rgba(0,0,0,.08));
     }
-    .gradient{
-      background:linear-gradient(90deg,var(--accent),var(--accent-2));
-      -webkit-background-clip:text; background-clip:text; color:transparent
-    }
+    .gradient{ background:linear-gradient(90deg,var(--accent),var(--accent-2)); -webkit-background-clip:text; background-clip:text; color:transparent }
     .lead{color:var(--muted); font-size:clamp(16px,2.6vw,19px); max-width:70ch}
-    .cta{display:flex; gap:12px; align-items:center}
+    .cta{display:flex; gap:12px; align-items:center; flex-wrap:wrap}
     .btn.primary{
       background:linear-gradient(90deg,var(--accent),var(--accent-2));
-      color:#fff; border:0;
-      box-shadow:0 8px 22px color-mix(in oklab,var(--accent) 30%, transparent);
+      color:#fff; border:0; box-shadow:0 8px 22px color-mix(in oklab,var(--accent) 30%, transparent);
     }
     .btn.ghost{background:transparent; border-color:var(--border)}
 
-    /* ========= CARDS / GRID ========= */
+    /* ========= GRID / CARDS ========= */
     section{padding:28px 0}
     h2{font-size:24px; margin:0 0 14px}
     .grid{display:grid; gap:16px; grid-template-columns:repeat(12,1fr)}
@@ -110,27 +105,26 @@
     @media(min-width:720px){ .card.third{grid-column:span 4} .card.half{grid-column:span 6} }
     .linkcard{display:block; text-decoration:none; color:inherit}
     .linkcard h3{margin:0 0 6px}
-
     footer{border-top:1px solid var(--border); padding:24px 0 80px; color:var(--muted)}
 
-    /* ========= SCROLL REVEAL ========= */
+    /* ========= GLOBAL SCROLL REVEAL ========= */
     [data-reveal]{
-      opacity:0; transform: translateY(var(--reveal-translate)) scale(.985);
-      transition: opacity .6s cubic-bezier(.2,.7,.2,1), transform .6s cubic-bezier(.2,.7,.2,1);
+      opacity:0;
+      transform: translateY(var(--reveal-distance)) scale(.985);
+      transition:
+        opacity var(--reveal-duration) cubic-bezier(.2,.7,.2,1),
+        transform var(--reveal-duration) cubic-bezier(.2,.7,.2,1);
+      will-change: opacity, transform;
     }
-    [data-reveal].show{opacity:1; transform:none}
-    /* 分组层级的交错延时（也可在元素上写 data-delay） */
-    [data-reveal-group] > *{--d:0ms}
-    [data-reveal-group] > *:nth-child(1){--d:40ms}
-    [data-reveal-group] > *:nth-child(2){--d:100ms}
-    [data-reveal-group] > *:nth-child(3){--d:160ms}
-    [data-reveal-group] > *:nth-child(4){--d:220ms}
-    [data-reveal][style*="--delay"]{transition-delay:var(--delay)}
-    [data-reveal].show{transition-delay:var(--d, 0ms)}
+    [data-reveal].show{
+      opacity:1; transform:none;
+    }
+    /* 支持行内设延时：style="--delay:120ms" 或 JS 设置 --d */
+    [data-reveal]{ transition-delay: var(--delay, var(--d, 0ms)); }
 
     @media (prefers-reduced-motion: reduce){
       [data-reveal]{opacity:1; transform:none; transition:none}
-      .hero, header::after{animation:none}
+      header::after{animation:none}
     }
 
     .spacer{height:8px}
@@ -163,11 +157,11 @@
   <main id="home">
     <!-- HERO -->
     <section class="hero">
-      <div class="wrap inner" data-reveal>
+      <div class="wrap inner">
         <h1>Hi, I’m <span class="gradient">Jin Yan</span>.</h1>
         <p class="lead">Physics PhD @ UCI · Lee Nano-Optics Lab. I work on <strong>nanophotonics</strong>, meta-optics (meta-optical fibers, ENZ metasurfaces), and nonlinear optics (THG/SHG). I like building clean experiments and clean code.</p>
         <div class="spacer"></div>
-        <div class="cta" data-reveal style="--delay:120ms">
+        <div class="cta">
           <a class="btn primary" href="/contact/">Get in touch</a>
           <a class="btn ghost" href="/publications/">View publications</a>
         </div>
@@ -177,8 +171,8 @@
     <!-- QUICK LINKS -->
     <section aria-label="Quick links">
       <div class="wrap">
-        <h2 data-reveal>Explore</h2>
-        <div class="grid" data-reveal-group>
+        <h2>Explore</h2>
+        <div class="grid">
           <a class="card third linkcard" href="/research/">
             <h3>Research</h3>
             <p class="muted">Meta-optical fibers · ENZ metasurfaces · Nonlinear optics.</p>
@@ -192,7 +186,7 @@
             <p class="muted">Code & notes: THG/SHG toolkits, meta-fiber prototypes.</p>
           </a>
         </div>
-        <div class="grid" style="margin-top:8px" data-reveal-group>
+        <div class="grid" style="margin-top:8px">
           <a class="card half linkcard" href="/teaching/">
             <h3>Teaching</h3>
             <p class="muted">TA @ UCI — problem-solving, tidy plots, reproducible analysis.</p>
@@ -205,7 +199,7 @@
       </div>
     </section>
 
-    <footer class="wrap" data-reveal>
+    <footer class="wrap">
       <p class="muted">© <span id="y"></span> Jin Yan. Built from scratch with vanilla HTML/CSS/JS. Hosted on GitHub Pages.</p>
     </footer>
   </main>
@@ -226,10 +220,25 @@
       localStorage.setItem('theme', next);
     });
 
-    // Scroll Reveal (IntersectionObserver)
+    // ===== Global Scroll Reveal =====
     (function(){
       const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-      const els = document.querySelectorAll('[data-reveal], [data-reveal-group] > *');
+      const main = document.querySelector('main');
+
+      // 1) 给 main 下所有元素添加 data-reveal（排除脚本/样式）
+      const all = main.querySelectorAll('*:not(script):not(style)');
+      all.forEach(el => el.setAttribute('data-reveal',''));
+
+      // 2) 为常见的“兄弟列表”添加交错延时
+      const staggerParents = main.querySelectorAll('.grid, .cta, ul, ol, .list');
+      staggerParents.forEach(parent => {
+        Array.from(parent.children).forEach((child, i) => {
+          child.style.setProperty('--d', `${Math.min(6, i)*90}ms`); // 0,90,180,... 上限 6*90
+        });
+      });
+
+      // 3) 观察并触发显示
+      const els = main.querySelectorAll('[data-reveal]');
       if (reduce){ els.forEach(el => el.classList.add('show')); return; }
 
       const io = new IntersectionObserver((entries)=>{
@@ -239,19 +248,16 @@
             io.unobserve(e.target);
           }
         }
-      }, {threshold: 0.14, rootMargin: '0px 0px -10% 0px'});
+      }, {threshold: 0.14, rootMargin: '0px 0px -8% 0px'});
 
       els.forEach(el => io.observe(el));
     })();
 
-    // Header shadow on scroll (细微提升层次)
+    // Header subtle shadow on scroll
     (function(){
       const header = document.querySelector('header');
-      let lastY = 0;
       const onScroll = () => {
-        const y = window.scrollY || 0;
-        header.style.boxShadow = y>6 ? '0 6px 18px rgba(0,0,0,.08)' : 'none';
-        lastY = y;
+        header.style.boxShadow = (window.scrollY||0) > 6 ? '0 6px 18px rgba(0,0,0,.08)' : 'none';
       };
       onScroll(); addEventListener('scroll', onScroll, {passive:true});
     })();
