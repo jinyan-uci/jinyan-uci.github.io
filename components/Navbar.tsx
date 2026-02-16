@@ -1,85 +1,111 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
-import { Moon, Sun, Atom, Menu, X } from 'lucide-react';
+import { Menu, X, Moon, Sun } from 'lucide-react';
+import { personalInfo } from '../data';
+import { useTheme } from '../App';
 
-interface NavbarProps {
-  theme: 'light' | 'dark';
-  toggleTheme: () => void;
-}
-
-const Navbar: React.FC<NavbarProps> = ({ theme, toggleTheme }) => {
+const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const { theme, toggleTheme } = useTheme();
 
-  const toggleMenu = () => setIsOpen(!isOpen);
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
-  const linkClass = ({ isActive }: { isActive: boolean }) =>
-    `text-sm font-medium transition-colors duration-200 block py-2 md:py-0 ${
-      isActive
-        ? 'text-cyan-600 dark:text-cyan-400'
-        : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
-    }`;
+  const navItems = [
+    { name: 'Home', path: '/' },
+    { name: 'Research', path: '/research' },
+    { name: 'Publications', path: '/publications' },
+    { name: 'Talks', path: '/talks' },
+  ];
+
+  const baseLinkStyles = "text-sm font-medium transition-colors duration-200";
+  const activeLinkStyles = "text-accent-600 dark:text-accent-500";
+  const inactiveLinkStyles = "text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100";
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-white/70 dark:bg-slate-950/70 border-b border-slate-200 dark:border-slate-800 transition-colors duration-300">
-      <div className="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
-        
-        {/* Brand Logo */}
-        <NavLink to="/" className="flex items-center gap-2 group relative z-50" onClick={() => setIsOpen(false)}>
-          <div className="p-1.5 rounded-lg bg-slate-100 dark:bg-slate-900 group-hover:bg-cyan-500/10 transition-colors">
-            <Atom className="w-5 h-5 text-slate-700 dark:text-cyan-400 group-hover:rotate-180 transition-transform duration-700" />
-          </div>
-          <span className="font-bold text-lg tracking-tight text-slate-800 dark:text-slate-100">
-            Jin Yan
-          </span>
+    <nav 
+      className={`fixed top-0 w-full z-50 transition-all duration-300 border-b ${
+        scrolled 
+          ? 'bg-white/80 dark:bg-dark-bg/80 backdrop-blur-md border-neutral-200/50 dark:border-neutral-800/50 py-3 shadow-sm' 
+          : 'bg-transparent border-transparent py-5'
+      }`}
+    >
+      <div className="max-w-4xl mx-auto px-6 flex items-center justify-between">
+        {/* Logo / Name */}
+        <NavLink 
+          to="/" 
+          className="text-lg font-bold tracking-tight text-neutral-900 dark:text-white"
+          onClick={() => setIsOpen(false)}
+        >
+          {personalInfo.name}
         </NavLink>
 
-        {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center gap-6">
-          <NavLink to="/research" className={linkClass}>Research</NavLink>
-          <NavLink to="/publications" className={linkClass}>Publications</NavLink>
-          <NavLink to="/teaching" className={linkClass}>Teaching</NavLink>
-          <NavLink to="/contact" className={linkClass}>Contact</NavLink>
-
-          <div className="h-5 w-px bg-slate-300 dark:bg-slate-700"></div>
-
-          <button
+        {/* Desktop Nav */}
+        <div className="hidden md:flex items-center gap-8">
+          {navItems.map((item) => (
+            <NavLink
+              key={item.name}
+              to={item.path}
+              className={({ isActive }) => 
+                `${baseLinkStyles} ${isActive ? activeLinkStyles : inactiveLinkStyles}`
+              }
+            >
+              {item.name}
+            </NavLink>
+          ))}
+          
+          <button 
             onClick={toggleTheme}
-            className="p-2 rounded-full text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-900 transition-colors focus:outline-none focus:ring-2 focus:ring-cyan-500/50"
-            aria-label="Toggle Theme"
+            className="p-2 rounded-full hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors text-neutral-600 dark:text-neutral-400"
+            aria-label="Toggle Dark Mode"
           >
-            {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
+            {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
           </button>
         </div>
 
-        {/* Mobile Toggle & Theme */}
-        <div className="flex items-center gap-4 md:hidden relative z-50">
-           <button
+        {/* Mobile Menu Button */}
+        <div className="flex items-center gap-4 md:hidden">
+          <button 
             onClick={toggleTheme}
-            className="p-2 rounded-full text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-900 transition-colors"
+            className="p-2 rounded-full hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors text-neutral-600 dark:text-neutral-400"
           >
-            {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
+            {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
           </button>
           <button 
-            onClick={toggleMenu}
-            className="p-2 text-slate-600 dark:text-slate-300 focus:outline-none"
-            aria-label="Toggle Menu"
+            onClick={() => setIsOpen(!isOpen)}
+            className="text-neutral-800 dark:text-neutral-200"
+            aria-label="Menu"
           >
             {isOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
       </div>
 
-      {/* Mobile Menu Dropdown */}
-      <div 
-        className={`absolute top-0 left-0 w-full bg-white dark:bg-slate-950 border-b border-slate-200 dark:border-slate-800 shadow-2xl transition-all duration-300 ease-in-out md:hidden flex flex-col pt-20 pb-6 px-6 space-y-2 origin-top transform ${
-          isOpen ? 'opacity-100 translate-y-0 pointer-events-auto' : 'opacity-0 -translate-y-4 pointer-events-none'
-        }`}
-      >
-        <NavLink to="/research" className={linkClass} onClick={() => setIsOpen(false)}>Research</NavLink>
-        <NavLink to="/publications" className={linkClass} onClick={() => setIsOpen(false)}>Publications</NavLink>
-        <NavLink to="/teaching" className={linkClass} onClick={() => setIsOpen(false)}>Teaching</NavLink>
-        <NavLink to="/contact" className={linkClass} onClick={() => setIsOpen(false)}>Contact</NavLink>
-      </div>
+      {/* Mobile Nav Dropdown */}
+      {isOpen && (
+        <div className="md:hidden absolute top-full left-0 w-full bg-white dark:bg-dark-card border-b border-neutral-200 dark:border-neutral-800 shadow-lg animate-fade-in">
+          <div className="flex flex-col py-4 px-6 gap-4">
+            {navItems.map((item) => (
+              <NavLink
+                key={item.name}
+                to={item.path}
+                onClick={() => setIsOpen(false)}
+                className={({ isActive }) => 
+                  `text-base font-medium py-2 ${isActive ? activeLinkStyles : inactiveLinkStyles}`
+                }
+              >
+                {item.name}
+              </NavLink>
+            ))}
+          </div>
+        </div>
+      )}
     </nav>
   );
 };

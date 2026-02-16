@@ -1,76 +1,82 @@
 import React from 'react';
-import { ArrowRight, Github, Mail } from 'lucide-react';
-import AmbientButton from '../components/AmbientButton';
 import { Link } from 'react-router-dom';
+import { ArrowRight, Download, Calendar, Tag } from 'lucide-react';
+import Section from '../components/Section';
+import { personalInfo, news } from '../data';
 
 const Home: React.FC = () => {
+  const recentNews = news.slice(0, 4); // Show top 4 news items
+
   return (
-    <div className="min-h-screen flex flex-col justify-center relative pt-16">
-      <div className="max-w-5xl mx-auto px-6 z-10 grid md:grid-cols-12 gap-12 items-center">
-        
-        {/* Text Content */}
-        <div className="md:col-span-8 space-y-8">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-700 dark:text-cyan-300 text-xs font-semibold uppercase tracking-wider">
-            <span className="w-2 h-2 rounded-full bg-cyan-500 animate-pulse"></span>
-            PhD Candidate · UCI
-          </div>
-          
-          <h1 className="text-5xl md:text-7xl font-extrabold text-slate-900 dark:text-white tracking-tight leading-[1.1]">
-            Exploring Light at the <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-600">
-              Nanoscale
-            </span>
-          </h1>
-
-          <p className="text-xl text-slate-600 dark:text-slate-300 leading-relaxed max-w-2xl">
-            Hi, I’m <strong>Jin Yan</strong>. I research nanophotonics, meta-optics, and nonlinear phenomena at the Lee Nano-Optics Lab.
-            <br className="hidden md:block" />
-            My work focuses on building cleaner experiments and cleaner code to understand light-matter interaction.
+    <div className="max-w-4xl mx-auto px-6 pt-24 pb-12">
+      {/* Hero Section */}
+      <Section className="min-h-[60vh] flex flex-col justify-center">
+        <h1 className="text-5xl md:text-7xl font-bold tracking-tight text-neutral-900 dark:text-white mb-6">
+          {personalInfo.name}
+        </h1>
+        <p className="text-xl md:text-2xl font-medium text-accent-600 dark:text-accent-500 mb-8">
+          {personalInfo.title}
+        </p>
+        <div className="max-w-2xl text-lg text-neutral-600 dark:text-neutral-300 leading-relaxed space-y-4 mb-10">
+          <p>{personalInfo.shortBio}</p>
+          <p className="text-base text-neutral-500 dark:text-neutral-400">
+            Currently at {personalInfo.affiliation}.
           </p>
+        </div>
+        
+        <div className="flex flex-wrap gap-4">
+          <Link 
+            to="/research" 
+            className="group flex items-center gap-2 bg-neutral-900 dark:bg-white text-white dark:text-neutral-900 px-6 py-3 rounded-full font-medium transition-transform active:scale-95 hover:bg-neutral-800 dark:hover:bg-neutral-100"
+          >
+            View Research <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+          </Link>
+          <a 
+            href="#" // Dummy CV link
+            className="flex items-center gap-2 bg-neutral-100 dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100 border border-neutral-200 dark:border-neutral-700 px-6 py-3 rounded-full font-medium hover:bg-neutral-200 dark:hover:bg-neutral-700 transition-colors"
+          >
+            Download CV <Download size={16} />
+          </a>
+        </div>
+      </Section>
 
-          <div className="flex flex-wrap items-center gap-4 pt-4">
-            <Link to="/research">
-              <AmbientButton>
-                View Research <ArrowRight className="w-4 h-4" />
-              </AmbientButton>
-            </Link>
-            
-            <Link to="/publications">
-              <AmbientButton variant="outline">
-                Publications
-              </AmbientButton>
-            </Link>
+      {/* News Section */}
+      <Section delay={0.2} className="border-t border-neutral-100 dark:border-neutral-800">
+        <div className="flex items-center justify-between mb-8">
+          <h2 className="text-2xl font-bold text-neutral-900 dark:text-white">Recent News</h2>
+          <span className="text-sm font-mono text-neutral-400">Timeline</span>
+        </div>
 
-            <div className="flex gap-4 ml-2 pl-4 border-l border-slate-300 dark:border-slate-700">
-              <a href="mailto:contact@example.com" className="text-slate-400 hover:text-cyan-500 transition-colors">
-                <Mail className="w-6 h-6" />
-              </a>
-              <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-cyan-500 transition-colors">
-                <Github className="w-6 h-6" />
-              </a>
+        <div className="relative border-l border-neutral-200 dark:border-neutral-800 ml-3 space-y-10 py-2">
+          {recentNews.map((item, index) => (
+            <div key={item.id} className="relative pl-8 group">
+              {/* Timeline Dot */}
+              <div className="absolute -left-[5px] top-2 w-2.5 h-2.5 rounded-full bg-neutral-300 dark:bg-neutral-600 group-hover:bg-accent-500 transition-colors ring-4 ring-white dark:ring-dark-bg" />
+              
+              <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between mb-1">
+                <span className="text-sm font-medium text-accent-600 dark:text-accent-500 mb-1 sm:mb-0">
+                  {item.date}
+                </span>
+                <span className="text-xs px-2 py-0.5 rounded-full bg-neutral-100 dark:bg-neutral-800 text-neutral-500 dark:text-neutral-400 font-medium">
+                  {item.category}
+                </span>
+              </div>
+              
+              <h3 className="text-lg font-semibold text-neutral-900 dark:text-white mb-2 group-hover:text-accent-600 dark:group-hover:text-accent-400 transition-colors">
+                {item.title}
+              </h3>
+              <p className="text-neutral-600 dark:text-neutral-400 text-sm leading-relaxed">
+                {item.description}
+              </p>
+              {item.link && (
+                <a href={item.link} className="inline-flex items-center text-sm font-medium text-neutral-400 hover:text-neutral-900 dark:hover:text-white mt-2 transition-colors">
+                  Read more <ArrowRight size={12} className="ml-1" />
+                </a>
+              )}
             </div>
-          </div>
+          ))}
         </div>
-
-        {/* Decorative Graphic (CSS-based optics visual) */}
-        <div className="md:col-span-4 relative hidden md:block">
-           <div className="relative w-64 h-64 mx-auto">
-              <div className="absolute inset-0 bg-cyan-500/20 rounded-full blur-3xl animate-pulse-slow"></div>
-              <div className="absolute inset-4 border border-slate-200 dark:border-slate-700/50 rounded-full flex items-center justify-center backdrop-blur-sm bg-white/5 dark:bg-slate-900/10">
-                 <div className="w-32 h-32 border border-cyan-500/30 rounded-full flex items-center justify-center">
-                    <div className="w-16 h-16 bg-gradient-to-tr from-cyan-400 to-purple-500 rounded-full shadow-[0_0_30px_rgba(34,211,238,0.4)]"></div>
-                 </div>
-              </div>
-              {/* Orbital particles */}
-              <div className="absolute inset-0 animate-spin" style={{ animationDuration: '10s' }}>
-                <div className="absolute top-0 left-1/2 w-3 h-3 bg-white rounded-full shadow-[0_0_10px_white] -translate-x-1/2 -translate-y-1/2"></div>
-              </div>
-              <div className="absolute inset-8 animate-spin" style={{ animationDuration: '7s', animationDirection: 'reverse' }}>
-                <div className="absolute bottom-0 left-1/2 w-2 h-2 bg-cyan-300 rounded-full shadow-[0_0_10px_cyan] -translate-x-1/2 translate-y-1/2"></div>
-              </div>
-           </div>
-        </div>
-      </div>
+      </Section>
     </div>
   );
 };
