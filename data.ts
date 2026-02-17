@@ -1,14 +1,16 @@
 import { NewsItem, Project, Publication, Talk } from './types';
+import profileImg from "./pictures/portrait.jpeg";
 
 export const personalInfo = {
   name: "Jin Yan",
-  title: "PhD Researcher / Optical Engineer",
+  title: "Ph.D. in Condensed Matter Physics",
   affiliation: "University of California, Irvine",
   email: "jin.yan@uci.edu",
   shortBio: "I explore the intersection of nanophotonics and machine learning. My research focuses on inverse design of non-linear optical metasurfaces and high-speed neural accelerators.",
   longBio: `I am a PhD candidate at the University of California, Irvine, advised by Prof. Jane Doe. My research lies at the interface of nanophotonics, nonlinear optics, and machine learning. 
   
-  Currently, I am working on developing data-driven approaches to accelerate the design of complex optical metasurfaces. Before my PhD, I received my B.S. in Physics from Caltech. When I'm not in the lab, I enjoy hiking, photography, and brewing specialty coffee.`
+  Currently, I am working on developing data-driven approaches to accelerate the design of complex optical metasurfaces. Before my PhD, I received my B.S. in Physics from Caltech. When I'm not in the lab, I enjoy hiking, photography, and brewing specialty coffee.`,
+  profileImage: profileImg
 };
 
 export const news: NewsItem[] = [

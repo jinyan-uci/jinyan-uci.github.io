@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
-import { Menu, X, Moon, Sun } from 'lucide-react';
-import { personalInfo } from '../data';
+import { Menu, X, Moon, Sun, Aperture } from 'lucide-react';
 import { useTheme } from '../App';
 
 const Navbar: React.FC = () => {
@@ -37,13 +36,14 @@ const Navbar: React.FC = () => {
       }`}
     >
       <div className="max-w-4xl mx-auto px-6 flex items-center justify-between">
-        {/* Logo / Name */}
+        {/* Logo / Icon */}
         <NavLink 
           to="/" 
-          className="text-lg font-bold tracking-tight text-neutral-900 dark:text-white"
+          className="text-neutral-900 dark:text-white hover:text-accent-600 dark:hover:text-accent-500 transition-colors"
           onClick={() => setIsOpen(false)}
+          aria-label="Home"
         >
-          {personalInfo.name}
+          <Aperture size={28} strokeWidth={1.5} />
         </NavLink>
 
         {/* Desktop Nav */}
