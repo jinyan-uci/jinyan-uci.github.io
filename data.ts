@@ -1,5 +1,4 @@
 import { NewsItem, Project, Publication, Talk } from './types';
-import profileImg from "./pictures/portrait.jpeg";
 
 export const personalInfo = {
   name: "Jin Yan",
@@ -10,7 +9,7 @@ export const personalInfo = {
   longBio: `I am a PhD candidate at the University of California, Irvine, advised by Prof. Jane Doe. My research lies at the interface of nanophotonics, nonlinear optics, and machine learning. 
   
   Currently, I am working on developing data-driven approaches to accelerate the design of complex optical metasurfaces. Before my PhD, I received my B.S. in Physics from Caltech. When I'm not in the lab, I enjoy hiking, photography, and brewing specialty coffee.`,
-  profileImage: profileImg
+  profileImage: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
 };
 
 export const news: NewsItem[] = [
