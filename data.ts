@@ -1,5 +1,5 @@
 import { NewsItem, Project, Publication, Talk } from './types';
-import profileImg from "/pictures/portrait.jpeg";
+import profileImg from "./pictures/portrait.jpeg";
 
 export const personalInfo = {
   name: "Jin Yan",
