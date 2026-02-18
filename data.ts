@@ -23,7 +23,7 @@ export const news: NewsItem[] = [
   },
   {
     id: '2',
-    date: 'Sep 2023',
+    date: 'Sep 2022',
     title: 'Best Student Paper Award',
     category: 'Award',
     description: 'Received the Best Student Paper award at CLEO 2023 for my talk on neural accelerators.',
